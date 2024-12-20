@@ -10,24 +10,23 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(45deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background: linear-gradient(45deg, #f6f9fc, #e9f2f9);
             font-family: 'Arial', sans-serif;
         }
         
         .container {
             padding: 50px;
             border-radius: 20px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
         
         h1 {
-            color: white;
+            color: #2c3e50;
             margin-bottom: 40px;
             font-size: 42px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
         }
         
         .links-container {
@@ -48,20 +47,20 @@
         }
         
         .fancy-link:nth-child(1) {
-            background: linear-gradient(45deg, #FF512F, #DD2476);
+            background: linear-gradient(45deg, #36d1dc, #5b86e5);
         }
         
         .fancy-link:nth-child(2) {
-            background: linear-gradient(45deg, #4776E6, #8E54E9);
+            background: linear-gradient(45deg, #56ab2f, #a8e063);
         }
         
         .fancy-link:nth-child(3) {
-            background: linear-gradient(45deg, #11998e, #38ef7d);
+            background: linear-gradient(45deg, #2193b0, #6dd5ed);
         }
         
         .fancy-link:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
         
         .fancy-link:active {
@@ -73,9 +72,9 @@
     <div class="container">
         <h1>Test Reports</h1>
         <div class="links-container">
-            <a href="CoreWCFTest/charts/Dashboard/index.html" class="fancy-link">Performance Tests for SOAP Services</a>
-            <a href="CoreWCFTest/comparison.html" class="fancy-link">Comparison Reports</a>
-            <!--<a href="CoreWCFTest/trends.html" class="fancy-link">Performance Trends</a>-->
+            <a href="Dashboard/index.html" class="fancy-link">Performance Tests for SOAP Services</a>
+            <a href="Dashboard/comparison.html" class="fancy-link">Comparison Reports</a>
+            <a href="Dashboard/trends.html" class="fancy-link">Performance Trends</a>
         </div>
     </div>
 </body>
