@@ -10,24 +10,30 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(45deg, #2193b0, #6dd5ed);
+            background: linear-gradient(45deg, #1a2a6c, #b21f1f, #fdbb2d);
             font-family: 'Arial', sans-serif;
         }
         
         .container {
-            padding: 40px;
-            border-radius: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 50px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
             text-align: center;
         }
         
         h1 {
             color: white;
-            margin-bottom: 30px;
-            font-size: 36px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 40px;
+            font-size: 42px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
         }
         
         .fancy-link {
@@ -36,36 +42,41 @@
             font-size: 24px;
             padding: 15px 30px;
             position: relative;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             display: inline-block;
+            border-radius: 8px;
+        }
+        
+        .fancy-link:nth-child(1) {
+            background: linear-gradient(45deg, #FF512F, #DD2476);
+        }
+        
+        .fancy-link:nth-child(2) {
+            background: linear-gradient(45deg, #4776E6, #8E54E9);
+        }
+        
+        .fancy-link:nth-child(3) {
+            background: linear-gradient(45deg, #11998e, #38ef7d);
         }
         
         .fancy-link:hover {
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-            transform: scale(1.05);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
         
-        .fancy-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: white;
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-        
-        .fancy-link:hover::after {
-            transform: scaleX(1);
+        .fancy-link:active {
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Test Reports</h1>
-        <a href="Dashboard/index.html" class="fancy-link">Performance Tests for SOAP Services</a>
+        <div class="links-container">
+            <a href="CoreWCFTest/charts/Dashboard/index.html" class="fancy-link">Performance Tests for SOAP Services</a>
+            <a href="CoreWCFTest/comparison.html" class="fancy-link">Comparison Reports</a>
+            <!--<a href="CoreWCFTest/trends.html" class="fancy-link">Performance Trends</a>-->
+        </div>
     </div>
 </body>
 </html>
