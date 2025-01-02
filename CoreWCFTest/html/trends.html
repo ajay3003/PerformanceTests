@@ -89,13 +89,14 @@
 
             let filesProcessed = 0;
 
-            // Updated color palette with Dark Blue and Dark Green
-            const colorPalette = [
+            // Define color palette for files
+            const fileColors = [
                 'rgb(0, 0, 139)',       // Dark Blue
-                'rgb(65, 105, 225)',    // Royal Blue
-                'rgb(25, 25, 112)',     // Midnight Blue
                 'rgb(0, 100, 0)',       // Dark Green
-                'rgb(34, 139, 34)',     // Forest Green
+                'rgb(75, 0, 130)',      // Dark Purple
+                'rgb(255, 140, 0)',     // Dark Orange
+                'rgb(139, 0, 0)',       // Dark Red
+                'rgb(139, 69, 19)',     // Dark Brown
             ];
 
             Array.from(input.files).forEach((file, index) => {
@@ -119,9 +120,9 @@
                                 errorPctData.push(entry.errorPct);
                             }
 
-                            // Assign a unique color from the palette for each graph
-                            const colorIndex = index % colorPalette.length;
-                            const color = colorPalette[colorIndex];
+                            // Assign color from fileColors based on the file index
+                            const colorIndex = index % fileColors.length;
+                            const color = fileColors[colorIndex];
 
                             // Add to respective datasets
                             data1.push({
@@ -129,7 +130,7 @@
                                 y: responseTimes,
                                 type: 'scatter',
                                 mode: 'lines+markers',
-                                marker: { color: color },  // Using the same color for all graphs
+                                marker: { color: color },  // Assign color to the response time graph
                                 name: `${key} - Response Time`,
                             });
 
