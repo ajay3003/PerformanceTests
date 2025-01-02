@@ -3,42 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JMeter Trends</title>
+    <title>JMeter Performance Trends</title>
     <script src="https://cdn.plotly.com/2.24.1/plotly.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+        }
+
+        #fileInput, #generateTrends {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        #chart {
+            margin-top: 20px;
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <h1>Upload JMeter JSON Files</h1>
     <input type="file" id="fileInput" multiple accept=".json">
     <button id="generateTrends">Generate Trends</button>
-    <div id="chart" style="width: 100%; height: 600px;"></div>
+    <div id="chart"></div>
 
     <script>
-        document.getElementById('generateTrends').addEventListener('click', function () {
-            const input = document.getElementById('fileInput');
-            if (!input.files.length) {
-                alert('Please upload at least one JSON file.');
+        document.getElementById('generateTrends').addEventListener('click', () => {
+            const fileInput = document.getElementById('fileInput');
+            const files = fileInput.files;
+
+            // Validate file selection
+            if (!files.length) {
+                alert('⚠️ Please select at least one JSON file.');
                 return;
             }
 
             const data = [];
-            const labels = [];
             let filesProcessed = 0;
 
-            Array.from(input.files).forEach((file, index) => {
+            Array.from(files).forEach((file, index) => {
                 const reader = new FileReader();
-                reader.onload = function (event) {
+
+                reader.onload = (event) => {
                     try {
                         const jsonData = JSON.parse(event.target.result);
+
+                        // Validate JSON data structure
+                        if (!Array.isArray(jsonData)) {
+                            throw new Error('File does not contain a valid array of entries.');
+                        }
+
                         const timestamps = [];
                         const elapsed = [];
 
-                        // Extract timeStamp and elapsed from JSON data
-                        jsonData.forEach(entry => {
-                            timestamps.push(new Date(entry.timeStamp));
-                            elapsed.push(entry.elapsed);
+                        // Extract data and validate each entry
+                        jsonData.forEach((entry, i) => {
+                            if (entry.timeStamp && entry.elapsed) {
+                                timestamps.push(new Date(entry.timeStamp));
+                                elapsed.push(entry.elapsed);
+                            } else {
+                                throw new Error(
+                                    `Missing 'timeStamp' or 'elapsed' in entry at index ${i}.`
+                                );
+                            }
                         });
 
-                        // Prepare data for Plotly
+                        // Add processed data to Plotly's dataset
                         data.push({
                             x: timestamps,
                             y: elapsed,
@@ -47,21 +96,28 @@
                             name: `Test Run ${index + 1}`,
                         });
 
-                        labels.push(`Test Run ${index + 1}`);
                         filesProcessed++;
 
-                        // Render the chart once all files are processed
-                        if (filesProcessed === input.files.length) {
+                        // Render the chart after all files are processed
+                        if (filesProcessed === files.length) {
                             Plotly.newPlot('chart', data, {
                                 title: 'JMeter Performance Trends',
                                 xaxis: { title: 'Time' },
                                 yaxis: { title: 'Response Time (ms)' },
                             });
+                            alert('✅ Trends generated successfully!');
                         }
-                    } catch (e) {
-                        alert('Error processing file ' + file.name + ': ' + e.message);
+                    } catch (err) {
+                        alert(`❌ Error in file "${file.name}": ${err.message}`);
                     }
                 };
+
+                // Handle file read errors
+                reader.onerror = () => {
+                    alert(`❌ Error reading file "${file.name}". Please try again.`);
+                };
+
+                // Read file content
                 reader.readAsText(file);
             });
         });
