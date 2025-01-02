@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JMeter Trends</title>
+    <script src="https://cdn.plotly.com/2.24.1/plotly.min.js"></script>
+</head>
+<body>
+    <h1>Upload JMeter JSON Files</h1>
+    <input type="file" id="fileInput" multiple accept=".json">
+    <button id="generateTrends">Generate Trends</button>
+    <div id="chart" style="width: 100%; height: 600px;"></div>
+
+    <script>
+        document.getElementById('generateTrends').addEventListener('click', function () {
+            const input = document.getElementById('fileInput');
+            if (!input.files.length) {
+                alert('Please upload at least one JSON file.');
+                return;
+            }
+
+            const data = [];
+            const labels = [];
+            let filesProcessed = 0;
+
+            Array.from(input.files).forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    try {
+                        const jsonData = JSON.parse(event.target.result);
+                        const timestamps = [];
+                        const elapsed = [];
+
+                        // Extract timeStamp and elapsed from JSON data
+                        jsonData.forEach(entry => {
+                            timestamps.push(new Date(entry.timeStamp));
+                            elapsed.push(entry.elapsed);
+                        });
+
+                        // Prepare data for Plotly
+                        data.push({
+                            x: timestamps,
+                            y: elapsed,
+                            type: 'scatter',
+                            mode: 'lines',
+                            name: `Test Run ${index + 1}`,
+                        });
+
+                        labels.push(`Test Run ${index + 1}`);
+                        filesProcessed++;
+
+                        // Render the chart once all files are processed
+                        if (filesProcessed === input.files.length) {
+                            Plotly.newPlot('chart', data, {
+                                title: 'JMeter Performance Trends',
+                                xaxis: { title: 'Time' },
+                                yaxis: { title: 'Response Time (ms)' },
+                            });
+                        }
+                    } catch (e) {
+                        alert('Error processing file ' + file.name + ': ' + e.message);
+                    }
+                };
+                reader.readAsText(file);
+            });
+        });
+    </script>
+</body>
+</html>
