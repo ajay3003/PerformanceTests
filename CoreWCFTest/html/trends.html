@@ -89,6 +89,15 @@
 
             let filesProcessed = 0;
 
+            // Color palette for response time graphs (dark red and brown tones)
+            const responseTimeColors = [
+                'rgb(139, 69, 19)',  // Dark brown
+                'rgb(178, 34, 34)',  // Firebrick red
+                'rgb(255, 99, 71)',  // Tomato red
+                'rgb(205, 92, 92)',  // Indian red
+                'rgb(139, 0, 0)',    // Dark red
+            ];
+
             Array.from(input.files).forEach((file, index) => {
                 const reader = new FileReader();
                 reader.onload = function (event) {
@@ -110,13 +119,17 @@
                                 errorPctData.push(entry.errorPct);
                             }
 
+                            // Assign a unique color from the palette for each response time graph
+                            const colorIndex = index % responseTimeColors.length;
+                            const responseTimeColor = responseTimeColors[colorIndex];
+
                             // Add to respective datasets
                             data1.push({
                                 x: timestamps,
                                 y: responseTimes,
                                 type: 'scatter',
                                 mode: 'lines+markers',
-                                marker: { color: 'rgb(139, 69, 19)' },  // Dark brown color for response time graph
+                                marker: { color: responseTimeColor },  // Dynamic color for response time graph
                                 name: `${key} - Response Time`,
                             });
 
