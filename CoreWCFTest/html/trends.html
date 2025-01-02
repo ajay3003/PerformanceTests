@@ -89,8 +89,8 @@
 
             let filesProcessed = 0;
 
-            // Color palette for response time graphs (dark red and brown tones)
-            const responseTimeColors = [
+            // Color palette for all graphs (dark red and brown tones)
+            const colorPalette = [
                 'rgb(139, 69, 19)',  // Dark brown
                 'rgb(178, 34, 34)',  // Firebrick red
                 'rgb(255, 99, 71)',  // Tomato red
@@ -119,9 +119,9 @@
                                 errorPctData.push(entry.errorPct);
                             }
 
-                            // Assign a unique color from the palette for each response time graph
-                            const colorIndex = index % responseTimeColors.length;
-                            const responseTimeColor = responseTimeColors[colorIndex];
+                            // Assign a unique color from the palette for each graph
+                            const colorIndex = index % colorPalette.length;
+                            const color = colorPalette[colorIndex];
 
                             // Add to respective datasets
                             data1.push({
@@ -129,7 +129,7 @@
                                 y: responseTimes,
                                 type: 'scatter',
                                 mode: 'lines+markers',
-                                marker: { color: responseTimeColor },  // Dynamic color for response time graph
+                                marker: { color: color },  // Using the same color for all graphs
                                 name: `${key} - Response Time`,
                             });
 
@@ -138,7 +138,7 @@
                                 y: throughputData,
                                 type: 'scatter',
                                 mode: 'lines+markers',
-                                marker: { color: `hsl(${(index + 1) * 60}, 80%, 50%)` },
+                                marker: { color: color },
                                 name: `${key} - Throughput`,
                             });
 
@@ -147,7 +147,7 @@
                                 y: errorPctData,
                                 type: 'scatter',
                                 mode: 'lines+markers',
-                                marker: { color: `hsl(${(index + 2) * 60}, 80%, 50%)` },
+                                marker: { color: color },
                                 name: `${key} - Error Percentage`,
                             });
                         });
