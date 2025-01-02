@@ -3,20 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JMeter Trends</title>
-    <script src="https://cdn.plotly.com/2.24.1/plotly.min.js"></script>
+    <title>JMeter Performance Trends</title>
+    <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist@2.24.1/plotly.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #fff;
+        }
+
+        #fileInput, #generateTrends {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        #fileInput {
+            background: #fff;
+            color: #4facfe;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        #generateTrends {
+            background: #00c6ff;
+            color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: background 0.3s;
+        }
+
+        #generateTrends:hover {
+            background: #007acc;
+        }
+
+        #chart {
+            width: 90%;
+            height: 600px;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            background: #fff;
+        }
+    </style>
 </head>
 <body>
     <h1>Upload JMeter JSON Files</h1>
     <input type="file" id="fileInput" multiple accept=".json">
     <button id="generateTrends">Generate Trends</button>
-    <div id="chart" style="width: 100%; height: 600px;"></div>
+    <div id="chart"></div>
 
     <script>
         document.getElementById('generateTrends').addEventListener('click', function () {
             const input = document.getElementById('fileInput');
             if (!input.files.length) {
-                alert('Please upload at least one JSON file.');
+                alert('❗ Please upload at least one JSON file.');
                 return;
             }
 
@@ -29,34 +80,35 @@
                     try {
                         const jsonData = JSON.parse(event.target.result);
 
-                        // Iterate through each key in the JSON object
                         Object.keys(jsonData).forEach((key) => {
                             const entry = jsonData[key];
                             const timestamps = [];
                             const responseTimes = [];
 
                             for (let i = 0; i < entry.sampleCount; i++) {
-                                timestamps.push(new Date(Date.now() - (entry.sampleCount - i) * 1000)); // Mock timestamps
-                                responseTimes.push(entry.meanResTime); // Mock response time
+                                timestamps.push(new Date(Date.now() - (entry.sampleCount - i) * 1000));
+                                responseTimes.push(entry.meanResTime);
                             }
 
-                            // Prepare data for Plotly
                             data.push({
                                 x: timestamps,
                                 y: responseTimes,
                                 type: 'scatter',
-                                mode: 'lines',
+                                mode: 'lines+markers',
+                                marker: { color: `hsl(${index * 60}, 80%, 50%)` },
                                 name: key,
                             });
                         });
 
                         filesProcessed++;
-
                         if (filesProcessed === input.files.length) {
                             Plotly.newPlot('chart', data, {
                                 title: 'JMeter Performance Trends',
-                                xaxis: { title: 'Time' },
-                                yaxis: { title: 'Response Time (ms)' },
+                                xaxis: { title: 'Time', gridcolor: '#f0f0f0' },
+                                yaxis: { title: 'Response Time (ms)', gridcolor: '#f0f0f0' },
+                                paper_bgcolor: '#f7f7f7',
+                                plot_bgcolor: '#ffffff',
+                                legend: { bgcolor: '#eaf4fe', bordercolor: '#333' },
                             });
                         }
                     } catch (e) {
