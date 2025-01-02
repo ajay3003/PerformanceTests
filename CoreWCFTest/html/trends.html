@@ -35,7 +35,6 @@
                             const timestamps = [];
                             const responseTimes = [];
 
-                            // Generate synthetic timestamps for visualization (since timestamps are missing)
                             for (let i = 0; i < entry.sampleCount; i++) {
                                 timestamps.push(new Date(Date.now() - (entry.sampleCount - i) * 1000)); // Mock timestamps
                                 responseTimes.push(entry.meanResTime); // Mock response time
@@ -53,14 +52,12 @@
 
                         filesProcessed++;
 
-                        // Render the chart once all files are processed
                         if (filesProcessed === input.files.length) {
                             Plotly.newPlot('chart', data, {
                                 title: 'JMeter Performance Trends',
                                 xaxis: { title: 'Time' },
                                 yaxis: { title: 'Response Time (ms)' },
                             });
-                            alert('✅ Trends generated successfully!');
                         }
                     } catch (e) {
                         alert(`❌ Error processing file "${file.name}": ${e.message}`);
