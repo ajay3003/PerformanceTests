@@ -62,18 +62,6 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
             background: #fff;
         }
-
-        /* Improved hover text styling */
-        .plotly .hovertext {
-            font-family: 'Arial', sans-serif;
-            font-size: 14px;
-            background-color: rgba(0, 0, 0, 0.9); /* Darker background */
-            color: #fff; /* White text color for higher contrast */
-            padding: 8px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Stronger shadow */
-            opacity: 1 !important; /* Ensuring no transparency */
-        }
     </style>
 </head>
 <body>
@@ -153,11 +141,19 @@
 
                         filesProcessed++;
                         if (filesProcessed === input.files.length) {
-                            // Plot the three charts
+                            // Plot the three charts with customized hoverlabel settings
                             Plotly.newPlot('chart1', data1, {
                                 title: 'Response Time (ms)',
                                 xaxis: { title: 'Time', gridcolor: '#f0f0f0' },
                                 yaxis: { title: 'Response Time (ms)', gridcolor: '#f0f0f0' },
+                                hoverlabel: {
+                                    bgcolor: 'rgba(0, 0, 0, 0.8)', // Dark background for hover text
+                                    font: {
+                                        family: 'Arial, sans-serif',
+                                        size: 14,
+                                        color: '#fff', // White text color for better visibility
+                                    },
+                                },
                                 paper_bgcolor: '#f7f7f7',
                                 plot_bgcolor: '#ffffff',
                             });
@@ -166,6 +162,14 @@
                                 title: 'Throughput (transactions/sec)',
                                 xaxis: { title: 'Time', gridcolor: '#f0f0f0' },
                                 yaxis: { title: 'Throughput', gridcolor: '#f0f0f0' },
+                                hoverlabel: {
+                                    bgcolor: 'rgba(0, 0, 0, 0.8)', // Dark background for hover text
+                                    font: {
+                                        family: 'Arial, sans-serif',
+                                        size: 14,
+                                        color: '#fff', // White text color for better visibility
+                                    },
+                                },
                                 paper_bgcolor: '#f7f7f7',
                                 plot_bgcolor: '#ffffff',
                             });
@@ -174,6 +178,14 @@
                                 title: 'Error Percentage',
                                 xaxis: { title: 'Time', gridcolor: '#f0f0f0' },
                                 yaxis: { title: 'Error Percentage (%)', gridcolor: '#f0f0f0' },
+                                hoverlabel: {
+                                    bgcolor: 'rgba(0, 0, 0, 0.8)', // Dark background for hover text
+                                    font: {
+                                        family: 'Arial, sans-serif',
+                                        size: 14,
+                                        color: '#fff', // White text color for better visibility
+                                    },
+                                },
                                 paper_bgcolor: '#f7f7f7',
                                 plot_bgcolor: '#ffffff',
                             });
